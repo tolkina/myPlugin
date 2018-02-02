@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+        <param name="configure.url">/secure/ConfigureSubtaskPluginWebworkAction!default.jspa</param>
+    </plugin-info>
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="myPlugin"/>
+    <!-- add our web resources -->
+    <web-resource key="myPlugin-resources" name="myPlugin Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <resource type="download" name="myPlugin.css" location="/css/myPlugin.css"/>
+        <resource type="download" name="myPlugin.js" location="/js/myPlugin.js"/>
+        <resource type="download" name="images/" location="/images"/>
+        <context>myPlugin</context>
+    </web-resource>
+    <webwork1 key="my-webwork-module" name="MyWebworkModule" i18n-name-key="my-webwork-module.name"
+              roles-required="admin">
+        <description key="my-webwork-module.description">The MyWebworkModule Plugin</description>
+        <actions>
+            <action name="com.atlassian.tutorial.jira.webwork.MyWebworkModuleAction" alias="MyWebworkModuleAction">
+                <view name="success">/templates/my-webwork-module/success.vm</view>
+                <view name="input">/templates/my-webwork-module/input.vm</view>
+                <view name="error">/templates/my-webwork-module/error.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+    <web-item name="ChangeSummary" i18n-name-key="change-summary.name" key="change-summary"
+              section="operations-operations" weight="1000">
+        <description key="change-summary.description">The Change Summary Plugin</description>
+        <conditions type="AND">
+            <condition class="com.atlassian.tutorial.jira.conditions.IsSubtaskCondition"/>
+            <condition class="com.atlassian.tutorial.jira.conditions.iaAllowByConfigCondition"/>
+        </conditions>
+        <label key="change-summary.label"/>
+        <link linkId="change-summary-link">/secure/MyWebworkModuleAction!default.jspa?id=${issue.id}</link>
+        <styleClass>trigger-dialog</styleClass>
+    </web-item>
+    <web-section name="Configure SummarySubtaskPlugin" i18n-name-key="configure-summary-subtask-plugin.name"
+                 key="configure-summary-subtask-plugin" location="system.admin" weight="1000">
+        <description key="configure-summary-subtask-plugin.description">The Configure Summary Subtask Plugin
+        </description>
+        <label key="configure-summary-subtask-plugin.label"/>
+    </web-section>
+    <web-item name="Configure SubtaskPlugin" i18n-name-key="configure-subtask-plugin.name"
+              key="configure-subtask-plugin" section="system.admin/configure-summary-subtask-plugin" weight="1000">
+        <description key="configure-subtask-plugin.description">The Configure Subtask Plugin</description>
+        <label key="configure-subtask-plugin.label"/>
+        <link linkId="configure-subtask-plugin-link">/secure/ConfigureSubtaskPluginWebworkAction!default.jspa</link>
+    </web-item>
+    <webwork1 key="configure-subtask-plugin-webwork" name="Configure Subtask Plugin Webwork"
+              i18n-name-key="configure-subtask-plugin-webwork.name">
+        <description key="configure-subtask-plugin-webwork.description">The Configure Subtask Plugin Webwork Plugin
+        </description>
+        <actions>
+            <action name="com.atlassian.tutorial.jira.webwork.ConfigureSubtaskPluginWebworkAction"
+                    alias="ConfigureSubtaskPluginWebworkAction">
+                <view name="success">/templates/configure-subtask-plugin-webwork/success.vm</view>
+                <view name="input">/templates/configure-subtask-plugin-webwork/input.vm</view>
+                <view name="error">/templates/configure-subtask-plugin-webwork/error.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+    <ao key="ao-module">
+        <description>The module configuring the Active Objects service used by this plugin</description>
+        <entity>com.atlassian.tutorial.jira.ao.domain.ProjectKeyEntity</entity>
+    </ao>
+    <component-import key="activeObjects" name="activeObjects">
+        <interface>com.atlassian.activeobjects.external.ActiveObjects</interface>
+    </component-import>
+    <component key="projectKeyService" name="projectKeyService"
+               class="com.atlassian.tutorial.jira.ao.service.ProjectKeyServiceImpl">
+        <interface>com.atlassian.tutorial.jira.ao.service.ProjectKeyService</interface>
+    </component>
+    <web-item name="Change Status" i18n-name-key="change-status.name" key="change-status"
+              section="operations-operations" weight="1000">
+        <description key="change-status.description">The Change Status Plugin</description>
+        <conditions type="AND">
+            <condition class="com.atlassian.tutorial.jira.conditions.IsSubtaskCondition"/>
+            <condition class="com.atlassian.tutorial.jira.conditions.iaAllowByConfigCondition"/>
+        </conditions>
+        <label key="change-status.label"/>
+        <link linkId="change-status-link">/secure/ChangeStatusWebworkModuleAction!default.jspa?id=${issue.id}</link>
+        <styleClass>trigger-dialog</styleClass>
+    </web-item>
+    <webwork1 key="change-status-webwork-module" name="Change Status Webwork Module"
+              i18n-name-key="change-status-webwork-module.name">
+        <description key="change-status-webwork-module.description">The Change Status Webwork Module Plugin
+        </description>
+        <actions>
+            <action name="com.atlassian.tutorial.jira.webwork.ChangeStatusWebworkModuleAction"
+                    alias="ChangeStatusWebworkModuleAction">
+                <view name="success">/templates/change-status-webwork-module/success.vm</view>
+                <view name="input">/templates/change-status-webwork-module/input.vm</view>
+                <view name="error">/templates/change-status-webwork-module/error.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+</atlassian-plugin>

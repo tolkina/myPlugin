@@ -1,0 +1,40 @@
+<html>
+<head>
+    $webResourceManager.requireResource("com.atlassian.auiplugin:aui-select2")
+    <meta name='decorator' content='atl.admin'/>
+</head>
+<body>
+<form action="secure/ConfigureSubtaskPluginWebworkAction.jspa" class="aui">
+    <div class="form-body">
+        <div class="hidden">
+            <input name="atl_token" type="hidden" value="${action.xsrfToken}">
+        </div>
+        <h2 class="dialog-title">$action.getText('configure-subtask-plugin-webwork.title')</h2>
+
+        <select id="select2-example" multiple="" name="selectedProjectKeys">
+            #foreach ($savedProject in ${action.savedProjects})
+                <option selected value="$savedProject.key">$savedProject.key</option>
+            #end
+            #foreach ($project in ${action.projects})
+                #set($flag = true)
+                #foreach ($savedProject in ${action.savedProjects})
+                    #if($project.key == $savedProject.key)
+                        #set($flag = false)
+                    #end
+                #end
+                #if($flag == true)
+                    <option value="$project.key">$project.key</option>
+                #end
+            #end
+        </select>
+    </div>
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            <input class="button" accesskey="s" id=change-config" name="save"
+                   title="Press Ctrl+Alt+s to submit this form" type="submit" value="save">
+        </div>
+    </div>
+</form>
+<script>AJS.$("#select2-example").auiSelect2();</script>
+</body>
+</html>

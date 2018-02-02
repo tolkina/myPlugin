@@ -1,0 +1,53 @@
+<html>
+<head></head>
+<body>
+<form action="secure/MyWebworkModuleAction.jspa" id="change-summary" method="post" class="aui">
+    <div class="form-body">
+        <div class="hidden">
+            <input name="atl_token" type="hidden" value="${action.xsrfToken}">
+        </div>
+        <h2 class="dialog-title">$action.getText('my-webwork-module.dialog.title')</h2>
+
+        <div class="hidden">
+            <input name="id" type="hidden" value="${action.id}">
+        </div>
+
+        <div class="field-group">
+            <label for="text-input">$action.getText('my-webwork-module.dialog.label1')
+                <span class="aui-icon icon-required">required</span></label>
+            <input class="text" type="text" id="summary" name="summary" title="Summary"
+                   value="$textutils.htmlEncode(${action.summary})">
+
+            #if (${action.hasAnyErrors()})
+                #foreach($message in $action.getErrorMessages())
+                    <div class="error">$message</div>
+                #end
+            #end
+        </div>
+    </div>
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            <input class="button" accesskey="s" id=change-summary" name="Change"
+                   title="Press Ctrl+Alt+s to submit this form" type="submit" value="Change">
+
+            <a accesskey="`" class="cancel" id="schedule-issue-cancel" title="Press Ctrl+Alt+` to cancel">Cancel</a>
+        </div>
+    </div>
+</form>
+<script>
+    AJS.$('#yourLink').unbind('click'); //on &lt;a href="link-to-webwork" id="yourLink"&gt;
+    //trigger to open popup
+    AJS.$('#yourLink').bind("click", function (e) {
+        e.preventDefault();
+        link = AJS.$(this);
+        //get content of dialog from link href response
+        AJS.$.get(link.attr('href'), function (response) {
+            html = AJS.$(response).find('.aui-page-panel-content').html();
+            AJS.$('#popupBox').html(html);
+            AJS.dialog2("#demo-dialog").show();
+        });
+        return false;
+    });
+</script>
+</body>
+</html>

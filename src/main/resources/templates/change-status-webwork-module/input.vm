@@ -1,0 +1,33 @@
+<html>
+<head>
+    $webResourceManager.requireResource("com.atlassian.auiplugin:aui-select2")
+</head>
+<body>
+<form action="secure/ChangeStatusWebworkModuleAction.jspa" id="change-status-form" method="post" class="aui">
+    <div class="form-body">
+        <div class="hidden">
+            <input name="atl_token" type="hidden" value="${action.xsrfToken}">
+        </div>
+        <h2 class="dialog-title">$action.getText('change-status-webwork-module.dialog.title')</h2>
+
+        <div class="hidden">
+            <input name="id" type="hidden" value="${action.id}">
+        </div>
+
+        <select id="select2-change-status" name="selectedActionId">
+            #foreach ($act in ${action.actions})
+                <option value="$act.id">$act.name</option>
+            #end
+        </select>
+    </div>
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            <input class="button" accesskey="s" id=change-status" name="Change"
+                   title="Press Ctrl+Alt+s to submit this form" type="submit" value="Change">
+            <a accesskey="`" class="cancel" id="change-status-cancel" title="Press Ctrl+Alt+` to cancel">Cancel</a>
+        </div>
+    </div>
+</form>
+<script>AJS.$("#select2-change-status").auiSelect2();</script>
+</body>
+</html>

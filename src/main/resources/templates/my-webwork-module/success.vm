@@ -1,0 +1,19 @@
+<html>
+<head></head>
+<body>
+<form action="secure/MyWebworkModuleAction.jspa" id="change-summary" method="post" class="aui">
+    <div class="form-body">
+        <h2 class="dialog-title">$action.getText('my-webwork-module.dialog.title')</h2>
+
+        <h4>Success! New summary is $textutils.htmlEncode(${action.summary})</h4>
+
+        <div class="buttons-container form-footer">
+            <div class="buttons">
+                <a accesskey="`" class="cancel" id="schedule-issue-cancel"
+                   title="Press Ctrl+Alt+` to cancel">Close</a>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
